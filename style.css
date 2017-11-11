@@ -25,3 +25,18 @@ body {
   stroke: #777;
   stroke-width: 2px;
 }
+
+.tooltip {
+  max-width: 200px;
+  height: auto;
+  background: rgb(255, 255, 255);
+  z-index: 10;
+  font-size: 12px;
+  left: 130px;
+  padding: 10px;
+  position: absolute;
+  display: block;
+  border-radius: 2px;
+  pointer-events: none;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}

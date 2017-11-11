@@ -26,8 +26,9 @@ class Chart {
     const {nodes, links} = data
 
     // chart dimensions
-    const w = 1100
-    const h = 900
+    const w = 900
+    const h = 600
+    const radius = 4
 
     // create svg canvas
     const svg = d3.select('svg')
@@ -36,26 +37,44 @@ class Chart {
       .attr('class', 'chart')
       .style('box-sizing', 'border-box')
 
-    // create force layout
+    // create tooltip
+    const tooltip = d3.select('body').append('div')
+      .attr('class', 'tooltip')
+      .style('opacity', 0)
 
+    // create force layout
     const force = d3.forceSimulation(nodes)
-      .force('charge', d3.forceManyBody().strength(-5))
+      .force('charge', d3.forceManyBody().strength(-2))
       .force('center', d3.forceCenter(w / 2, h / 2))
       .force('link', d3.forceLink().id((d, i) => d.index).links(links))
       .on('tick', ticked)
 
+    // create the links between nodes
     const link = svg.selectAll('.link')
       .data(links)
       .enter()
       .append('line')
       .attr('class', 'link')
 
+    // create the nodes
     const node = svg.append('g')
       .attr('class', 'node')
       .selectAll('circle')
       .data(nodes)
       .enter().append('circle')
-      .attr('r', 8)
+      .attr('r', radius)
+      .on('mouseover', d => {
+        tooltip
+          .transition()
+          .style('opacity', 1)
+        tooltip
+          .html(`${d.country}`)
+      })
+      .on('mouseout', d => {
+        tooltip
+          .transition()
+          .style('opacity', 0)
+      })
       .call(d3.drag()
         .on('start', dragstarted)
         .on('drag', dragged)
@@ -69,14 +88,20 @@ class Chart {
         .attr('x2', (d) => d.target.x)
         .attr('y2', (d) => d.target.y)
       node
-        .attr('cx', (d) => d.x)
-        .attr('cy', (d) => d.y)
+        .attr('cx', (d) => {
+          const boundedX = Math.max(radius, Math.min(w - radius, d.x))
+          return boundedX
+        })
+        .attr('cy', (d) => {
+          const boundedY = Math.max(radius, Math.min(h - radius, d.y))
+          return boundedY
+        })
     }
 
     // drag functions
     function dragstarted (d) {
       if (!d3.event.active) {
-        force.alphaTarget(0.3).restart()
+        force.alphaTarget(0.2).restart()
       }
     }
 
