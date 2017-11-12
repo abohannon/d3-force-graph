@@ -1,6 +1,5 @@
 body {
   display: flex;
-  justify-content: center;
   background: #06beb6;
   /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #48b1bf, #06beb6);
@@ -13,6 +12,10 @@ body {
 .chart {
   background-color: white;
   box-shadow: 1px 2px 20px rgba(0, 0, 0, 0.38);
+}
+
+#flags {
+  position: absolute;
 }
 
 .node {

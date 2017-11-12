@@ -57,13 +57,13 @@ class Chart {
       .attr('class', 'link')
 
     // create the nodes
-    const node = svg.append('g')
-      .attr('class', 'node')
-      .selectAll('image')
+    const node = d3.select('#flags')
+      .selectAll('img')
       .data(nodes)
-      .enter().append('image')
+      .enter().append('img')
+      .attr('xlink:href', 'blank.gif')
       .attr('class', d => `flag flag-${d.code}`)
-      .attr('alt', d => d.country)
+      .style('position', 'absolute')
       .on('mouseover', d => {
         tooltip
           .transition()
@@ -89,14 +89,8 @@ class Chart {
         .attr('x2', (d) => d.target.x)
         .attr('y2', (d) => d.target.y)
       node
-        .attr('x', (d) => {
-          const boundedX = Math.max(radius, Math.min(w - radius, d.x))
-          return boundedX
-        })
-        .attr('y', (d) => {
-          const boundedY = Math.max(radius, Math.min(h - radius, d.y))
-          return boundedY
-        })
+        .style('left', (d) => d.x + 'px')
+        .style('top', (d) => d.y + 'px')
     }
 
     // drag functions
