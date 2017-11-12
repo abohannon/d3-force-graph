@@ -26,7 +26,7 @@ class Chart {
     const {nodes, links} = data
 
     // chart dimensions
-    const w = 900
+    const w = 960
     const h = 600
     const radius = 4
 
@@ -59,10 +59,11 @@ class Chart {
     // create the nodes
     const node = svg.append('g')
       .attr('class', 'node')
-      .selectAll('circle')
+      .selectAll('image')
       .data(nodes)
-      .enter().append('circle')
-      .attr('r', radius)
+      .enter().append('image')
+      .attr('class', d => `flag flag-${d.code}`)
+      .attr('alt', d => d.country)
       .on('mouseover', d => {
         tooltip
           .transition()
@@ -88,11 +89,11 @@ class Chart {
         .attr('x2', (d) => d.target.x)
         .attr('y2', (d) => d.target.y)
       node
-        .attr('cx', (d) => {
+        .attr('x', (d) => {
           const boundedX = Math.max(radius, Math.min(w - radius, d.x))
           return boundedX
         })
-        .attr('cy', (d) => {
+        .attr('y', (d) => {
           const boundedY = Math.max(radius, Math.min(h - radius, d.y))
           return boundedY
         })
