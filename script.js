@@ -28,7 +28,7 @@ class Chart {
     // chart dimensions
     const w = 960
     const h = 600
-    const radius = 4
+    const flagSize = 16
 
     // create svg canvas
     const svg = d3.select('svg')
@@ -44,9 +44,11 @@ class Chart {
 
     // create force layout
     const force = d3.forceSimulation(nodes)
+      .alphaDecay(0.03)
       .force('charge', d3.forceManyBody().strength(-2))
       .force('center', d3.forceCenter(w / 2, h / 2))
       .force('link', d3.forceLink().id((d, i) => d.index).links(links))
+      .force('collision', d3.forceCollide().radius(flagSize))
       .on('tick', ticked)
 
     // create the links between nodes
@@ -89,8 +91,8 @@ class Chart {
         .attr('x2', (d) => d.target.x)
         .attr('y2', (d) => d.target.y)
       node
-        .style('left', (d) => d.x + 'px')
-        .style('top', (d) => d.y + 'px')
+        .style('left', (d) => Math.max(flagSize, Math.min(w - flagSize, d.x)) + 'px')
+        .style('top', (d) => Math.max(flagSize, Math.min(h - flagSize, d.y)) + 'px')
     }
 
     // drag functions
