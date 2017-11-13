@@ -16,6 +16,10 @@ body {
   box-shadow: 1px 2px 20px rgba(0, 0, 0, 0.38);
 }
 
+.chart-title {
+  white-space: nowrap;
+}
+
 h1 {
   font-weight: 200;
 }

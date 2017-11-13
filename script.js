@@ -72,6 +72,8 @@ class Chart {
           .style('opacity', 1)
         tooltip
           .html(`${d.country}`)
+          .style('left', d.x + 50 + 'px')
+          .style('top', d.y + 80 + 'px')
       })
       .on('mouseout', d => {
         tooltip
@@ -91,8 +93,8 @@ class Chart {
         .attr('x2', (d) => d.target.x)
         .attr('y2', (d) => d.target.y)
       node
-        .style('left', (d) => Math.max(flagSize, Math.min(w - flagSize, d.x)) + 'px')
-        .style('top', (d) => Math.max(flagSize, Math.min(h - flagSize, d.y)) + 'px')
+        .style('left', (d) => Math.max(0, Math.min(w - flagSize, d.x)) - w / 2 + 'px')
+        .style('top', (d) => Math.max(0, Math.min(h - flagSize, d.y)) + 80 + 'px')
     }
 
     // drag functions
